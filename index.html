@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#ff2d82">
+<title>雷梓晴宝宝 · 心动宇宙</title>
+<style>
+:root{
+ --pink:#ff3b93;--hot:#ff176f;--rose:#ff8bc5;--white:#fff7fb;
+ --glass:rgba(255,255,255,.075);--line:rgba(255,170,211,.26)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050008;color:#fff;font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}
+body{touch-action:manipulation}
+#app{position:fixed;inset:0;overflow:hidden;background:
+radial-gradient(ellipse at 50% 42%,#ff5aa72b 0%,#a40e4d20 28%,transparent 55%),
+radial-gradient(circle at 15% 80%,#ff168e18,transparent 34%),
+radial-gradient(circle at 90% 20%,#ff80bd16,transparent 30%),#060007}
+#nebula{position:absolute;inset:-35%;background:
+conic-gradient(from 10deg,transparent 0 12%,#ff328d0e 18%,transparent 27%,#ff75b516 38%,transparent 51%,#ff197d0d 65%,transparent 77%,#ff8ac711 88%,transparent);
+filter:blur(30px);animation:spin 28s linear infinite}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.grid{position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);opacity:.11;
+background-image:linear-gradient(#ff8fc51a 1px,transparent 1px),linear-gradient(90deg,#ff8fc51a 1px,transparent 1px);
+background-size:45px 45px;mask-image:radial-gradient(circle,#000 0,transparent 68%);transform-origin:center;animation:grid 12s linear infinite}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,transparent 48%,#0000009a 100%)}
+.header{position:absolute;top:max(32px,env(safe-area-inset-top));left:0;right:0;text-align:center;z-index:5}
+.kicker{font-size:10px;letter-spacing:.48em;color:#ffd8ea;text-transform:uppercase;opacity:.9}
+h1{margin:10px 0 0;font-size:clamp(32px,8vw,66px);line-height:1;font-weight:800;letter-spacing:.13em;
+background:linear-gradient(90deg,#fff,#ffc2df,#fff);-webkit-background-clip:text;color:transparent;
+filter:drop-shadow(0 0 20px #ff318855)}
+.subtitle{margin-top:12px;font-size:12px;letter-spacing:.25em;color:#ffd3e5}
+.scene{position:absolute;left:50%;top:49%;width:min(88vw,620px);height:min(88vw,620px);transform:translate(-50%,-50%);z-index:3}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);
+border:1px solid #ff8fc555;box-shadow:0 0 70px #ff197a1f,inset 0 0 55px #ff5aab12}
+.r1{width:43%;height:43%;animation:breath 2.1s ease-in-out infinite}.r2{width:64%;height:64%;border-style:dashed;animation:orbit 18s linear infinite}.r3{width:84%;height:84%;opacity:.34;animation:orbit 30s linear reverse infinite}
+.ring:after{content:"";position:absolute;width:6px;height:6px;top:-3px;left:50%;border-radius:50%;background:#fff;box-shadow:0 0 15px 5px #ff56a9;transform-origin:calc((var(--r,1))*0px)}
+.coreAura{position:absolute;left:50%;top:50%;width:39%;height:39%;transform:translate(-50%,-50%);border-radius:50%;
+background:#ff2d7d18;box-shadow:0 0 90px 35px #ff227d28,0 0 160px 65px #ff197d12;animation:aura 1.02s ease-in-out infinite}
+.heart{position:absolute;left:50%;top:50%;width:150px;height:150px;transform:translate(-50%,-44%) rotate(-45deg);
+animation:heartbeat 1.02s cubic-bezier(.2,.8,.3,1) infinite;filter:drop-shadow(0 0 10px #fff2) drop-shadow(0 0 22px #ff3a8e) drop-shadow(0 0 58px #ff137955);cursor:pointer}
+.heart .shape,.heart:before,.heart:after{position:absolute;width:150px;height:150px;background:linear-gradient(145deg,#ffd1e8 0%,#ff8bc4 16%,#ff2f8a 47%,#e80061 78%,#a90046 100%)}
+.heart .shape{z-index:2}.heart:before,.heart:after{content:""}.heart:before{top:-75px;border-radius:50%}.heart:after{left:75px;border-radius:50%}
+.heart .shine{position:absolute;z-index:5;left:31px;top:13px;width:36px;height:74px;border-radius:50%;background:#fff9;filter:blur(7px);transform:rotate(45deg)}
+.heart .shine2{position:absolute;z-index:5;left:69px;top:72px;width:12px;height:24px;border-radius:50%;background:#fff7;filter:blur(4px);transform:rotate(45deg)}
+.love{position:absolute;left:50%;top:70%;transform:translateX(-50%);z-index:6;text-align:center;width:92%;pointer-events:none;text-shadow:0 0 14px #ff2385,0 0 40px #ff238555}
+.love strong{display:block;font-size:clamp(21px,5.4vw,34px);letter-spacing:.08em;font-weight:800}
+.love span{display:block;margin-top:8px;font-size:12px;letter-spacing:.2em;color:#ffd7e7}
+.heartbeat{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:13px;opacity:.9}
+.heartbeat i{width:3px;border-radius:10px;background:#ff9dca;box-shadow:0 0 8px #ff3b93;animation:eq .75s ease-in-out infinite alternate}
+.heartbeat i:nth-child(1){height:7px}.heartbeat i:nth-child(2){height:15px;animation-delay:.1s}.heartbeat i:nth-child(3){height:24px;animation-delay:.18s}.heartbeat i:nth-child(4){height:12px;animation-delay:.28s}.heartbeat i:nth-child(5){height:18px;animation-delay:.34s}.heartbeat i:nth-child(6){height:8px;animation-delay:.43s}
+.panel{position:absolute;bottom:max(24px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:10;width:min(92vw,460px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.musicBtn{border:1px solid #ffafd5aa;background:linear-gradient(135deg,#ff3d8e44,#ff147020);color:white;border-radius:999px;padding:13px 25px;min-width:220px;font-size:14px;font-weight:650;letter-spacing:.05em;box-shadow:0 0 28px #ff2c842b,inset 0 1px #fff3;backdrop-filter:blur(16px);cursor:pointer}
+.musicBtn:active{transform:scale(.96)}
+.status{font-size:10px;color:#ffcadd;letter-spacing:.15em;opacity:.75}
+.toast{position:absolute;left:50%;top:79%;transform:translate(-50%,10px);z-index:20;padding:9px 15px;border:1px solid #ffabd333;border-radius:999px;background:#ff398c20;backdrop-filter:blur(10px);font-size:12px;opacity:0;transition:.35s;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@keyframes heartbeat{0%,100%{transform:translate(-50%,-44%) rotate(-45deg) scale(1)}11%{transform:translate(-50%,-44%) rotate(-45deg) scale(1.18)}20%{transform:translate(-50%,-44%) rotate(-45deg) scale(.97)}31%{transform:translate(-50%,-44%) rotate(-45deg) scale(1.11)}46%{transform:translate(-50%,-44%) rotate(-45deg) scale(1)}}
+@keyframes aura{50%{transform:translate(-50%,-50%) scale(1.14);opacity:.72}}
+@keyframes breath{50%{transform:translate(-50%,-50%) scale(1.08);opacity:.72}}
+@keyframes orbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes grid{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes eq{to{transform:scaleY(.45);opacity:.5}}
+@media(max-width:520px){.heart,.heart .shape,.heart:before,.heart:after{width:116px;height:116px}.heart:before{top:-58px}.heart:after{left:58px}.heart .shine{left:24px;top:10px;width:29px;height:58px}.heart .shine2{left:53px;top:56px}.scene{top:47%}.love{top:69%}}
+</style>
+</head>
+<body>
+<div id="app"><div id="nebula"></div><div class="grid"></div><canvas id="fx"></canvas><div class="vignette"></div>
+<header class="header"><div class="kicker">A LITTLE UNIVER MADE FOR YOU</div><h1>雷梓晴宝宝</h1><div class="subtitle">这一颗心，只为你扑通扑通</div></header>
+<main class="scene" id="scene">
+<div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="coreAura"></div>
+<div class="heart" id="heart"><div class="shape"></div><div class="shine"></div><div class="shine2"></div></div>
+</main>
+<div class="love"><strong>雷梓晴宝宝，我爱你 ❤️</strong><span id="copy">愿所有浪漫，都奔向你</span><div class="heartbeat"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div class="toast" id="toast"></div>
+<section class="panel"><button class="musicBtn" id="music">♡ 点我，让《樱花草》响起</button><div class="status" id="status">点击屏幕 · 爱心会回应你</div></section>
+<audio id="audio" preload="metadata" loop></audio>
+</div>
+<script>
+const A=document.getElementById("audio"),B=document.getElementById("music"),T=document.getElementById("toast"),C=document.getElementById("fx"),X=C.getContext("2d"),H=document.getElementById("heart"),COPY=document.getElementById("copy");
+A.src="./music.mp3";
+let w=innerWidth,h=innerHeight,d=1,stars=[],love=[],rings=[],count=0,ctx;
+function resize(){d=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;C.width=w*d;C.height=h*d;X.setTransform(d,0,0,d,0,0)}resize();addEventListener("resize",resize);
+for(let i=220;i--;)stars.push({x:Math.random()*w,y:Math.random()*h,r:.3+Math.random()*1.8,t:Math.random()*7,s:.2+Math.random()*.8});
+function makeHeart(x,y,s=1){love.push({x,y,s,vx:(Math.random()-.5)*2.1,vy:-.9-Math.random()*2.7,a:1,r:(Math.random()-.5)*.8})}
+function burst(x,y,power=1){rings.push({x,y,r:4,a:1});for(let i=0;i<42*power;i++)makeHeart(x+(Math.random()-.5)*18,y+(Math.random()-.5)*18,.16+Math.random()*.6*power)}
+function drawLove(q){X.save();X.translate(q.x,q.y);X.rotate(q.r);X.globalAlpha=q.a;X.shadowBlur=16*q.s;X.shadowColor="#ff3291";X.fillStyle=Math.random()>.35?"#ff71b3":"#ffc0dc";X.beginPath();X.moveTo(0,9*q.s);X.bezierCurveTo(-21*q.s,-8*q.s,-11*q.s,-26*q.s,0,-14*q.s);X.bezierCurveTo(11*q.s,-26*q.s,21*q.s,-8*q.s,0,9*q.s);X.fill();X.restore()}
+function loop(){X.clearRect(0,0,w,h);for(const s of stars){s.t+=.008*s.s;X.globalAlpha=.12+.38*Math.abs(Math.sin(s.t));X.fillStyle="#ffeaf4";X.beginPath();X.arc(s.x,s.y,s.r,0,7);X.fill()}for(let i=love.length-1;i>=0;i--){let q=love[i];q.x+=q.vx;q.y+=q.vy;q.vy+=.008;q.a-=.009;drawLove(q);if(q.a<=0)love.splice(i,1)}for(let i=rings.length-1;i>=0;i--){let q=rings[i];q.r+=5;q.a-=.025;X.globalAlpha=q.a;X.strokeStyle="#ff91c7";X.lineWidth=2;X.shadowBlur=20;X.shadowColor="#ff2988";X.beginPath();X.arc(q.x,q.y,q.r,0,7);X.stroke();if(q.a<=0)rings.splice(i,1)}requestAnimationFrame(loop)}loop();
+function toast(t){T.textContent=t;T.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>T.classList.remove("show"),1500)}
+async function startMusic(){try{await A.play();B.textContent="❚❚ 暂停《樱花草》";document.getElementById("status").textContent="正在播放 · 把浪漫交给这一首歌"}catch(e){toast("浏览器拦截了播放，请再点一次 ♡")}}
+B.onclick=()=>A.paused?startMusic():(A.pause(),B.textContent="♡ 继续播放《樱花草》");
+function interact(px,py){count++;burst(px,py,count%3===0?1.5:1);H.style.animationDuration=Math.max(.46,1.02-count*.012)+"s";COPY.textContent=["愿所有浪漫，都奔向你","你是我心里的小宇宙 ✨","雷梓晴宝宝，永远开心","这一刻，心动百分百","我爱你，比心还要多一点"][count%5];if(navigator.vibrate)navigator.vibrate(12);if(count%7===0)toast("心动暴击 × "+count)}
+addEventListener("pointerdown",e=>{if(e.target.closest("button"))return;interact(e.clientX,e.clientY)});
+H.addEventListener("pointerdown",e=>{e.stopPropagation();interact(e.clientX,e.clientY)});
+setInterval(()=>{let r=H.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,.5)},2600);
+</script>
+</body></html>
